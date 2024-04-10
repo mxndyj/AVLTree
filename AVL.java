@@ -1,4 +1,5 @@
-public class AVL {
+
+public class AVLTREE {
     
     public class Node {
         private int value;
@@ -15,10 +16,10 @@ public class AVL {
 
     private Node root;
 
-    public AVL() {
+    public AVLTREE() {
         root = null; //initiated the root to be empty
     }
-        private void inorder(){
+        public void inorder(){
         inorder2(root);
     }
     //prints inorder traversal of tree
@@ -33,6 +34,9 @@ public class AVL {
     private int height(Node node) {
         if (node == null) return -1;
         return node.height;
+    }
+    public int height() {
+        return height(root);
     }
 
     //method to update the height
@@ -66,7 +70,8 @@ public class AVL {
         // self balance the tree
         return balance(node); //NOTE: balance() not implemented yet
     }
-        private void delete(int value){
+    
+    void delete(int value){
         root = deleteHelper(root, value);
     }
 
@@ -88,10 +93,13 @@ public class AVL {
                 return root.left;
             }
             root.value = min(root.right);
-            root.right = deleteHelper(root.right, root.value);
+                    root.right = deleteHelper(root.right, root.value);
         }
-        return root;
+
+        updateHeight(root);
+        return balance(root);
     }
+    
 
     private int min(Node root){
         int min = root.value;
@@ -101,9 +109,47 @@ public class AVL {
         }
         return min;
     }
+    
+    private int getBalance(Node node) {
+        if (node == null) return 0;
+        return height(node.left) - height(node.right);
+    }
+    
+    private Node balance(Node node) {
+        int balanceFactor = getBalance(node);
 
+        // 1:Left Heavy
+        if (balanceFactor > 1) {
+            // 1a: Single right for LL
+            if (getBalance(node.left) >= 0) {
+                return rightRotate(node);
+            }
+            // 1b: Left-Right
+            else {
+                node.left = leftRotate(node.left);
+                return rightRotate(node);
+            }
+        }
+        // 2: Right Heavy
+        else if (balanceFactor < -1) {
+            // 2a: for a left rotate for Right-Right
+            if (getBalance(node.right) <= 0) {
+                return leftRotate(node);
+            }
+            // 2b: Right-Left
+            else {
+                node.right = rightRotate(node.right);
+                return leftRotate(node);
+            }
+        }
+        return node;
+    }
+
+    //need to implement: leftRotate, rightRotate, search and anything else
+
+    
     public static void main(String[] args){
-        AVL tree = new AVL();
+        AVLTREE tree = new AVLTREE();
         tree.insert(50);
         tree.insert(30);
         tree.insert(20);
@@ -117,3 +163,4 @@ public class AVL {
         tree.inorder();
     }
 }
+    
