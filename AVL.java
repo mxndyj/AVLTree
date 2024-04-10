@@ -73,7 +73,7 @@ public class AVL {
         updateHeight(node);
 
         // self balance the tree
-        return balance(node); // NOTE: balance() not implemented yet
+        return balance(node); 
     }
 
     void delete(int value) {
