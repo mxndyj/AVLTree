@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 public class AVL {
 
@@ -89,11 +90,13 @@ public class AVL {
         } else if (value > root.value) {
             root.right = deleteHelper(root.right, value);
         } else {
+           
             if (root.left == null) {
                 return root.right;
             } else if (root.right == null) {
                 return root.left;
             }
+        
             root.value = min(root.right);
             root.right = deleteHelper(root.right, root.value);
         }
@@ -181,20 +184,59 @@ public class AVL {
         return newParent;
     }
 
-    // need to implement: search and delete handling
-
     public static void main(String[] args) {
-        AVLTREE tree = new AVLTREE();
-        tree.insert(50);
-        tree.insert(30);
-        tree.insert(20);
-        tree.insert(40);
-        tree.insert(70);
-        tree.insert(60);
-        tree.insert(80);
-        tree.inorder();
-        System.out.println();
-        tree.delete(60);
-        tree.inorder();
+        AVL tree = new AVL();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("AVL Tree operations:\n" +
+                "'i' followed by numbers separated by spaces to insert them.\n" +
+                "'d' followed by a number to delete that number.\n" +
+                "'p' to print inorder traversal.\n" +
+                "'q' to quit.");
+
+        while (true) {
+            System.out.print("\nEnter an operation: ");
+            String operation = scanner.next();
+
+            switch (operation) {
+                case "i": // Insert operation
+                    System.out.print("Enter numbers to insert, separated by spaces: ");
+                    scanner.nextLine(); 
+                    String numbers = scanner.nextLine();
+                    String[] numsToInsert = numbers.split("\\s+");
+                    for (String numStr : numsToInsert) {
+                        try {
+                            int valueToInsert = Integer.parseInt(numStr);
+                            tree.insert(valueToInsert);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid number: " + numStr);
+                        }
+                    }
+                    break;
+                case "d": // Delete operation
+                    System.out.print("Enter number to delete: ");
+                    if (scanner.hasNextInt()) {
+                        int valueToDelete = scanner.nextInt();
+                        tree.delete(valueToDelete);
+                    } else {
+                        System.out.println("Please enter a valid number after 'd'.");
+                        scanner.nextLine(); 
+                    }
+                    break;
+                case "p": // Print inorder operation
+                    System.out.println("Inorder traversal of the AVL tree:");
+                    tree.inorder();
+                    System.out.println(); 
+                    break;
+                case "q": // Quit operation
+                    System.out.println("Exiting program.");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid operation. Please enter 'i', 'd', 'p', or 'q'.");
+                    scanner.nextLine(); 
+                    break;
+            }
+        }
     }
 }
