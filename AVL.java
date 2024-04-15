@@ -184,6 +184,31 @@ public class AVL {
         return newParent;
     }
 
+    private boolean search(Node node, int value) {
+        if (node == null) {
+            return false;
+        }
+        if (value == node.value) {
+            return true;
+        } else if (value < node.value) {
+            return search(node.left, value);
+        } else {
+            return search(node.right, value);
+        }
+    }
+
+    public void searchAndPrintTime(int value) {
+        long startTime = System.nanoTime();
+        boolean found = search(root, value);
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / 1000; // microseconds
+        if (found) {
+            System.out.println("Value " + value + " found in " + duration + " microseconds.");
+        } else {
+            System.out.println("Value " + value + " not found. Search took " + duration + " microseconds.");
+        }
+    }
+
     public static void main(String[] args) {
         AVL tree = new AVL();
         Scanner scanner = new Scanner(System.in);
@@ -192,6 +217,7 @@ public class AVL {
                 "'i' followed by numbers separated by spaces to insert them.\n" +
                 "'d' followed by a number to delete that number.\n" +
                 "'p' to print inorder traversal.\n" +
+                "'s' followed by a number to search for that number and see how long it takes.\n" +
                 "'q' to quit.");
 
         while (true) {
@@ -201,7 +227,7 @@ public class AVL {
             switch (operation) {
                 case "i": // Insert operation
                     System.out.print("Enter numbers to insert, separated by spaces: ");
-                    scanner.nextLine(); 
+                    scanner.nextLine();
                     String numbers = scanner.nextLine();
                     String[] numsToInsert = numbers.split("\\s+");
                     for (String numStr : numsToInsert) {
@@ -220,21 +246,31 @@ public class AVL {
                         tree.delete(valueToDelete);
                     } else {
                         System.out.println("Please enter a valid number after 'd'.");
-                        scanner.nextLine(); 
+                        scanner.nextLine();
                     }
                     break;
                 case "p": // Print inorder operation
                     System.out.println("Inorder traversal of the AVL tree:");
                     tree.inorder();
-                    System.out.println(); 
+                    System.out.println();
+                    break;
+                case "s": // Search operation
+                    System.out.print("Enter number to search: ");
+                    if (scanner.hasNextInt()) {
+                        int valueToSearch = scanner.nextInt();
+                        tree.searchAndPrintTime(valueToSearch);
+                    } else {
+                        System.out.println("Please enter a valid number after 's'.");
+                        scanner.nextLine();
+                    }
                     break;
                 case "q": // Quit operation
                     System.out.println("Exiting program.");
                     scanner.close();
                     return;
                 default:
-                    System.out.println("Invalid operation. Please enter 'i', 'd', 'p', or 'q'.");
-                    scanner.nextLine(); 
+                    System.out.println("Invalid operation. Please enter 'i', 'd', 'p', 's', or 'q'.");
+                    scanner.nextLine();
                     break;
             }
         }
