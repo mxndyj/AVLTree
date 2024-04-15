@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class AVL {
+public class AVLTree1 {
 
     public class Node {
         private int value;
@@ -18,7 +18,7 @@ public class AVL {
 
     private Node root;
 
-    public AVL() {
+    public AVLTree1() {
         root = null; // initiated the root to be empty
     }
 
@@ -27,12 +27,13 @@ public class AVL {
     }
 
     // prints inorder traversal of tree
-    private void inorder2(Node root) {
-        if (root != null) {
-            inorder2(root.left);
-            System.out.print(root.value + " ");
-            inorder2(root.right);
+    private void inorder2(Node node) {
+        if (node != null) {
+            inorder2(node.left);
+            System.out.print(node.value + " ");
+            inorder2(node.right);
         }
+        //System.out.println();
     }
 
     // height getter
@@ -53,31 +54,35 @@ public class AVL {
 
     // public insert method for easier user use
     public void insert(int value) {
-        root = insert(root, null, value);
+        Node insertNode = new Node(value);
+        root = insert(root, null, insertNode);
     }
 
     // actual insert function which is recursive
-    private Node insert(Node node, Node parent, int value) {
+    private Node insert(Node node, Node parent, Node newNode) {
         if (node == null) {
-            Node newNode = new Node(value);
             newNode.parent = parent;
             return newNode;
         }
 
-        if (value < node.value) {
-            node.left = insert(node.left, node, value);
-        } else if (value > node.value) {
-            node.right = insert(node.right, node, value);
+        if (newNode.value < node.value) {
+            node.left = insert(node.left, node, newNode);
+        } else if (newNode.value > node.value) {
+            node.right = insert(node.right, node, newNode);
         } else {
             // assuming no dupe values
             return node;
         }
-
         // Update height of this node
         updateHeight(node);
-
-        // self balance the tree
-        return balanceUpwards(node); 
+        inorder();
+        System.out.println();
+        if (node.parent != null) {
+            return balanceUpwards(newNode.parent);
+        } else {
+            // If the inserted node is the root, return the balanced root
+            return node;
+        }        
     }
 
     void delete(int value) {
@@ -122,7 +127,6 @@ public class AVL {
         updateHeight(root);
         return balanceUpwards(root);
     }
-    
 
     private int min(Node root) {
         int min = root.value;
@@ -140,14 +144,15 @@ public class AVL {
     }
 
     private Node balanceUpwards(Node node) {
+        System.out.println(node.value + "........");
         // moves up each parent, balancing the tree all the way up to the root
-        Node current = node;
-        while (current != null) {
-            current = balance(current);
-            current = current.parent; 
+        while (node != null) {
+            node = balance(node);
+            updateHeight(node);
+            node = node.parent; 
         }
         // returns new root
-        return node;
+        return null;
     }    
 
     private Node balance(Node node) {
@@ -215,19 +220,17 @@ public class AVL {
     }
 
     public static void main(String[] args) {
-        AVL tree = new AVL();
+        AVLTree1 tree = new AVLTree1();
         Scanner scanner = new Scanner(System.in);
-
+    
         System.out.println("AVL Tree operations:\n" +
                 "'i' followed by numbers separated by spaces to insert them.\n" +
                 "'d' followed by a number to delete that number.\n" +
                 "'p' to print inorder traversal.\n" +
                 "'q' to quit.");
-
         while (true) {
             System.out.print("\nEnter an operation: ");
             String operation = scanner.next();
-
             switch (operation) {
                 case "i": // Insert operation
                     System.out.print("Enter numbers to insert, separated by spaces: ");
