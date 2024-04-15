@@ -15,6 +15,8 @@ This Java AVL Tree implementation provides a demonstration of an self-balancing 
 
 **Height**: Calculates the height of any node to help maintain tree balance during operations.
 
+**Search**: Searches for item
+
 **Balancing Rotations**: Includes right and left rotations, along with their double counterparts (right-left and left-right), to ensure the tree remains balanced.
 
 **Testcases**: JUnit test cases to ensure correctness and efficiency.
@@ -26,6 +28,7 @@ First, save and compile AVL.java.
 When prompted, you can perform the following operations:
 Insert: Type i, press enter, and then the numbers you want to insert separated by spaces. Press enter.
 Delete: Type d, press enter, then type the number you wish to delete and press enter.
+Search: Type s, press enter, then type number you want to search for.
 Print Inorder Traversal: Type p and press enter to see the current inorder traversal of the tree.
 Quit: Type q and press enter to exit the program.
 
