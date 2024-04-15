@@ -77,6 +77,10 @@ public class AVLTree1 {
         updateHeight(node);
         inorder();
         System.out.println();
+        /*
+        I think it should start balancing from the inserted node's parent or even that node's parent
+        b/c the inserted node has a BF of 0 
+        */
         if (node.parent != null) {
             return balanceUpwards(newNode.parent);
         } else {
