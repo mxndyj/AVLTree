@@ -214,11 +214,11 @@ public class AVL {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("AVL Tree operations:\n" +
-                "'i' followed by numbers separated by spaces to insert them.\n" +
-                "'d' followed by a number to delete that number.\n" +
-                "'p' to print inorder traversal.\n" +
-                "'s' followed by a number to search for that number and see how long it takes.\n" +
-                "'q' to quit.");
+               "'i' : enter numbers separated by spaces to insert them.\n" +
+                "'d' : enter a number to delete that number.\n" +
+                "'p' : to print inorder traversal.\n" +
+                "'s' : enter a number to search for that number and see how long it takes.\n" +
+                "'q' : to quit.");
 
         while (true) {
             System.out.print("\nEnter an operation: ");
