@@ -182,6 +182,18 @@ public class AVL {
         return newParent;
     }
 
+    // Left-Right rotation method
+    private Node leftRightRotate(Node node) {
+        node.left = leftRotate(node.left);
+        return rightRotate(node);
+    }
+
+    // Right-Left rotation method
+    private Node rightLeftRotate(Node node) {
+        node.right = rightRotate(node.right);
+        return leftRotate(node);
+    }
+
     private boolean search(Node node, int value) {
         if (node == null) {
             return false;

@@ -2,7 +2,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AVLTest {
+public class AVLTesting {
     private AVL avlTree;
 
     @Before
@@ -75,6 +75,34 @@ public class AVLTest {
         avlTree.insert(1);
         avlTree.insert(2);
         assertEquals( 1, avlTree.height());
+    }
+    
+    @Test
+    public void testLeftRightRotation() {
+        avlTree.insert(30);
+        avlTree.insert(20);
+        avlTree.insert(40);
+        avlTree.insert(10);
+        avlTree.insert(25);
+        avlTree.insert(35);
+        avlTree.insert(50);
+
+        avlTree.insert(22); // Trigger left-right rotation
+        assertEquals(3, avlTree.height()); // Height should be 3 after left-right rotation
+    }
+
+    @Test
+    public void testRightLeftRotation() {
+        avlTree.insert(30);
+        avlTree.insert(20);
+        avlTree.insert(40);
+        avlTree.insert(10);
+        avlTree.insert(25);
+        avlTree.insert(35);
+        avlTree.insert(50);
+
+        avlTree.insert(38); // Trigger right-left rotation
+        assertEquals(3, avlTree.height()); // Height should be 3 after right-left rotation
     }
 
     @Test
